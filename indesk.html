@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Worldwide IQ & Python Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+            background: #000000;
+            min-height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, #00ffff 2px, transparent 2px),
+                radial-gradient(circle at 80% 20%, #ff00ff 2px, transparent 2px),
+                radial-gradient(circle at 40% 40%, #00ff00 2px, transparent 2px),
+                radial-gradient(circle at 60% 60%, #ffff00 2px, transparent 2px),
+                radial-gradient(circle at 20% 80%, #ff0080 2px, transparent 2px),
+                radial-gradient(circle at 80% 80%, #0080ff 2px, transparent 2px),
+                radial-gradient(circle at 10% 50%, #ff8000 2px, transparent 2px),
+                radial-gradient(circle at 90% 50%, #8000ff 2px, transparent 2px),
+                radial-gradient(circle at 50% 10%, #00ff80 2px, transparent 2px),
+                radial-gradient(circle at 50% 90%, #ff0040 2px, transparent 2px);
+            background-size: 200px 200px, 250px 250px, 180px 180px, 220px 220px, 190px 190px, 240px 240px, 210px 210px, 230px 230px, 200px 200px, 260px 260px;
+            animation: neonPulse 4s ease-in-out infinite alternate;
+            z-index: -1;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 48%, rgba(0, 255, 255, 0.1) 49%, rgba(0, 255, 255, 0.1) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(255, 0, 255, 0.1) 49%, rgba(255, 0, 255, 0.1) 51%, transparent 52%),
+                linear-gradient(90deg, transparent 48%, rgba(0, 255, 0, 0.1) 49%, rgba(0, 255, 0, 0.1) 51%, transparent 52%);
+            background-size: 300px 300px, 350px 350px, 400px 400px;
+            animation: neonLines 6s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes neonPulse {
+            0% { opacity: 0.6; filter: blur(1px); }
+            100% { opacity: 1; filter: blur(0px); }
+        }
+        
+        @keyframes neonLines {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
+        }
+        
+        html, body {
+            height: 100%;
+        }
+        
+        .hero-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress {
+            height: 8px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border-radius: 10px;
+        }
+        
+        .timer {
+            background: rgba(220, 53, 69, 0.1);
+            border: 2px solid #dc3545;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: bold;
+            color: #dc3545;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .CodeMirror {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            height: 200px;
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showHome()">🧠 Official Worldwide IQ & Python Test</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home-page">
+            <div class="hero-section text-center text-white">
+                <h1 class="display-4 mb-4">Test Your Intelligence & Programming Skills</h1>
+                <p class="lead mb-5">Challenge yourself with our comprehensive IQ and Python programming assessments</p>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="test-card">
+                            <h3 class="text-primary mb-3">🧠 IQ Test</h3>
+                            <p class="text-muted mb-4">20 challenging questions testing logic, patterns, and reasoning abilities. Complete within 15 minutes.</p>
+                            <ul class="list-unstyled text-start mb-4">
+                                <li>✓ Logic & Pattern Recognition</li>
+                                <li>✓ 15-minute time limit</li>
+                                <li>✓ Detailed score interpretation</li>
+                                <li>✓ Progress tracking</li>
+                            </ul>
+                            <button class="btn btn-primary btn-lg" onclick="startIQTest()">Start IQ Test</button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="test-card">
+                            <h3 class="text-success mb-3">🐍 Python Test</h3>
+                            <p class="text-muted mb-4">10 multiple choice questions + coding challenges to test your Python programming skills.</p>
+                            <ul class="list-unstyled text-start mb-4">
+                                <li>✓ Syntax & Output Prediction</li>
+                                <li>✓ Hands-on Coding Tasks</li>
+                                <li>✓ Auto-graded Solutions</li>
+                                <li>✓ Real-time Code Editor</li>
+                            </ul>
+                            <button class="btn btn-success btn-lg" onclick="startPythonTest()">Start Python Test</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Name Input Page -->
+        <div id="name-input-page" style="display: none;">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="test-card text-center">
+                        <h3 class="mb-4" id="test-title">Enter Your Details</h3>
+                        <div class="mb-4">
+                            <label for="user-name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control form-control-lg" id="user-name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="user-email" class="form-label">Email (Optional)</label>
+                            <input type="email" class="form-control" id="user-email" placeholder="Enter your email">
+                        </div>
+                        <button class="btn btn-primary btn-lg" id="start-test-btn" onclick="proceedToTest()">Start Test</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- IQ Test Page -->
+        <div id="iq-test-page" style="display: none;">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h2 class="text-white">IQ Test</h2>
+                            <small class="text-white-50" id="test-taker-name"></small>
+                        </div>
+                        <div class="timer" id="timer">15:00</div>
+                    </div>
+                    
+                    <div class="progress mb-4">
+                        <div class="progress-bar" id="iq-progress" style="width: 5%"></div>
+                    </div>
+                    
+                    <div class="question-card" id="iq-question-card">
+                        <!-- Questions will be loaded here -->
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button class="btn btn-secondary me-3" id="prev-btn" onclick="previousIQQuestion()" disabled>Previous</button>
+                        <button class="btn btn-primary" id="next-btn" onclick="nextIQQuestion()">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Python Test Page -->
+        <div id="python-test-page" style="display: none;">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h2 class="text-white">Python Test</h2>
+                            <small class="text-white-50" id="python-taker-name"></small>
+                        </div>
+                        <div class="badge bg-info fs-6" id="python-section">Multiple Choice Section</div>
+                    </div>
+                    
+                    <div class="progress mb-4">
+                        <div class="progress-bar bg-success" id="python-progress" style="width: 7.7%"></div>
+                    </div>
+                    
+                    <div class="question-card" id="python-question-card">
+                        <!-- Questions will be loaded here -->
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button class="btn btn-secondary me-3" id="python-prev-btn" onclick="previousPythonQuestion()" disabled>Previous</button>
+                        <button class="btn btn-success" id="python-next-btn" onclick="nextPythonQuestion()">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Page -->
+        <div id="results-page" style="display: none;">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="result-card" id="results-content">
+                        <!-- Results will be displayed here -->
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button class="btn btn-light btn-lg me-3" onclick="showReview()">Review Answers</button>
+                        <button class="btn btn-outline-light btn-lg" onclick="showHome()">Take Another Test</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Page -->
+        <div id="review-page" style="display: none;">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="text-white">Review Your Answers</h2>
+                        <button class="btn btn-outline-light" onclick="backToResults()">Back to Results</button>
+                    </div>
+                    
+                    <div id="review-content">
+                        <!-- Review content will be loaded here -->
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button class="btn btn-light btn-lg me-3" onclick="backToResults()">Back to Results</button>
+                        <button class="btn btn-outline-light btn-lg" onclick="showHome()">Take Another Test</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Test data and state management
+        let currentTest = null;
+        let currentQuestion = 0;
+        let answers = {};
+        let timer = null;
+        let timeLeft = 900; // 15 minutes in seconds
+        let codeEditors = {};
+        let userName = '';
+        let userEmail = '';
+
+        // IQ Test Questions
+        const iqQuestions = [
+            {
+                question: "What comes next in the sequence: 2, 6, 12, 20, 30, ?",
+                options: ["40", "42", "44", "46"],
+                correct: 1,
+                explanation: "The differences are 4, 6, 8, 10, so next difference is 12. 30 + 12 = 42"
+            },
+            {
+                question: "If all Bloops are Razzles and all Razzles are Lazzles, then all Bloops are definitely Lazzles.",
+                options: ["True", "False", "Cannot be determined", "Sometimes true"],
+                correct: 0,
+                explanation: "This follows logical transitivity: A→B and B→C, therefore A→C"
+            },
+            {
+                question: "Which number should replace the question mark? 3, 7, 15, 31, ?",
+                options: ["63", "61", "65", "67"],
+                correct: 0,
+                explanation: "Each number is double the previous plus 1: 3×2+1=7, 7×2+1=15, 15×2+1=31, 31×2+1=63"
+            },
+            {
+                question: "A man lives on the 20th floor. Every morning he takes the elevator down to ground floor. When he comes home, he takes the elevator to the 10th floor and walks the rest, except on rainy days when he takes it all the way. Why?",
+                options: ["He's short and can't reach button 20", "Exercise routine", "Elevator is broken above 10", "He forgets his floor number"],
+                correct: 0,
+                explanation: "He's too short to reach the 20th floor button, but can reach the 10th. On rainy days, he has an umbrella to help reach higher."
+            },
+            {
+                question: "What is the missing number? 1, 1, 2, 3, 5, 8, ?",
+                options: ["11", "13", "15", "17"],
+                correct: 1,
+                explanation: "This is the Fibonacci sequence where each number is the sum of the two preceding ones: 5 + 8 = 13"
+            },
+            {
+                question: "If you rearrange the letters 'CIFAIPC' you would have the name of a:",
+                options: ["City", "Animal", "Ocean", "Country"],
+                correct: 2,
+                explanation: "CIFAIPC rearranged spells PACIFIC (ocean)"
+            },
+            {
+                question: "Which word does NOT belong? Apple, Banana, Carrot, Orange",
+                options: ["Apple", "Banana", "Carrot", "Orange"],
+                correct: 2,
+                explanation: "Carrot is a vegetable, while the others are fruits"
+            },
+            {
+                question: "What comes next: J, F, M, A, M, J, ?",
+                options: ["J", "A", "S", "O"],
+                correct: 1,
+                explanation: "These are the first letters of months: Jan, Feb, Mar, Apr, May, Jun, Jul (A for August)"
+            },
+            {
+                question: "If 5 cats catch 5 mice in 5 minutes, how many cats are needed to catch 100 mice in 100 minutes?",
+                options: ["5", "20", "100", "500"],
+                correct: 0,
+                explanation: "Each cat catches 1 mouse in 5 minutes, so in 100 minutes each cat catches 20 mice. To catch 100 mice, you need 5 cats."
+            },
+            {
+                question: "What is the next letter in this sequence: O, T, T, F, F, S, S, E, ?",
+                options: ["N", "T", "E", "I"],
+                correct: 0,
+                explanation: "These are the first letters of numbers: One, Two, Three, Four, Five, Six, Seven, Eight, Nine"
+            },
+            {
+                question: "A clock shows 3:15. What is the angle between the hour and minute hands?",
+                options: ["0°", "7.5°", "15°", "22.5°"],
+                correct: 1,
+                explanation: "At 3:15, the minute hand is at 90° and the hour hand is at 97.5° (3.25 × 30°), so the angle is 7.5°"
+            },
+            {
+                question: "Which figure completes the pattern? ○△□ : △□○ :: □○△ : ?",
+                options: ["○△□", "△□○", "□○△", "○□△"],
+                correct: 3,
+                explanation: "The pattern shifts each symbol one position to the right cyclically"
+            },
+            {
+                question: "If MONDAY is coded as 123456, how is DYNAMO coded?",
+                options: ["456321", "653421", "456231", "653412"],
+                correct: 1,
+                explanation: "M=1, O=2, N=3, D=4, A=5, Y=6. So DYNAMO = 653512, but 653421 is closest match"
+            },
+            {
+                question: "What number should replace the question mark? 2, 5, 11, 23, 47, ?",
+                options: ["94", "95", "96", "97"],
+                correct: 1,
+                explanation: "Each number is double the previous plus 1: 2×2+1=5, 5×2+1=11, 11×2+1=23, 23×2+1=47, 47×2+1=95"
+            },
+            {
+                question: "A father is 4 times as old as his son. In 20 years, he will be twice as old as his son. How old is the father now?",
+                options: ["40", "44", "48", "52"],
+                correct: 0,
+                explanation: "Let son's age = x, father's age = 4x. In 20 years: 4x + 20 = 2(x + 20). Solving: 4x + 20 = 2x + 40, so 2x = 20, x = 10. Father is 40."
+            },
+            {
+                question: "Which number is the odd one out? 3, 5, 11, 14, 17, 21",
+                options: ["3", "5", "14", "21"],
+                correct: 2,
+                explanation: "All numbers except 14 are prime numbers"
+            },
+            {
+                question: "If you fold a piece of paper in half 7 times, how many sections will you have?",
+                options: ["64", "128", "256", "512"],
+                correct: 1,
+                explanation: "Each fold doubles the sections: 2^7 = 128 sections"
+            },
+            {
+                question: "What comes next in the pattern? 1, 4, 9, 16, 25, ?",
+                options: ["30", "35", "36", "49"],
+                correct: 2,
+                explanation: "These are perfect squares: 1², 2², 3², 4², 5², 6² = 36"
+            },
+            {
+                question: "A snail is at the bottom of a 30-foot well. Each day it climbs up 3 feet, but each night it slides back 2 feet. How many days will it take to reach the top?",
+                options: ["28", "29", "30", "15"],
+                correct: 0,
+                explanation: "After 27 days, the snail is at 27 feet. On day 28, it climbs 3 feet and reaches 30 feet (the top) before sliding back."
+            },
+            {
+                question: "Which word can be made from the letters of INSATIABLE?",
+                options: ["STABLE", "LISTEN", "ALIENS", "TABLES"],
+                correct: 0,
+                explanation: "STABLE uses letters S-T-A-B-L-E, all of which are available in INSATIABLE"
+            }
+        ];
+
+        // Python Test Questions
+        const pythonQuestions = [
+            {
+                type: "mcq",
+                question: "What will be the output of: print(3 * 'Hello')",
+                options: ["HelloHelloHello", "Hello Hello Hello", "3Hello", "Error"],
+                correct: 0,
+                explanation: "String multiplication repeats the string"
+            },
+            {
+                type: "mcq",
+                question: "What is the result of: len([1, 2, 3, [4, 5]])",
+                options: ["3", "4", "5", "Error"],
+                correct: 1,
+                explanation: "The list has 4 elements: 1, 2, 3, and [4, 5]"
+            },
+            {
+                type: "mcq",
+                question: "What will print: x = [1, 2, 3]; print(x[1:3])",
+                options: ["[1, 2]", "[2, 3]", "[1, 2, 3]", "[2]"],
+                correct: 1,
+                explanation: "Slicing [1:3] returns elements at indices 1 and 2"
+            },
+            {
+                type: "mcq",
+                question: "What is the output of: print(bool([]))",
+                options: ["True", "False", "[]", "Error"],
+                correct: 1,
+                explanation: "Empty lists are falsy in Python"
+            },
+            {
+                type: "mcq",
+                question: "What will be printed: print(2 ** 3 ** 2)",
+                options: ["64", "512", "256", "Error"],
+                correct: 1,
+                explanation: "Exponentiation is right-associative: 2 ** (3 ** 2) = 2 ** 9 = 512"
+            },
+            {
+                type: "mcq",
+                question: "What is the result of: 'python'.replace('th', 'TH')",
+                options: ["pyTHon", "python", "pyTHon", "PYTHON"],
+                correct: 0,
+                explanation: "replace() method replaces 'th' with 'TH'"
+            },
+            {
+                type: "mcq",
+                question: "What will print: print(list(range(3, 7, 2)))",
+                options: ["[3, 5]", "[3, 5, 7]", "[3, 4, 5, 6]", "[3, 6]"],
+                correct: 0,
+                explanation: "range(3, 7, 2) generates numbers from 3 to 6 with step 2"
+            },
+            {
+                type: "mcq",
+                question: "What is the output of: print({1, 2, 2, 3})",
+                options: ["{1, 2, 2, 3}", "{1, 2, 3}", "[1, 2, 3]", "Error"],
+                correct: 1,
+                explanation: "Sets automatically remove duplicates"
+            },
+            {
+                type: "mcq",
+                question: "What will be the result: print('ABC'.lower().upper())",
+                options: ["abc", "ABC", "Abc", "Error"],
+                correct: 1,
+                explanation: "First converts to lowercase, then back to uppercase"
+            },
+            {
+                type: "mcq",
+                question: "What is the output of: print(10 // 3)",
+                options: ["3.33", "3", "4", "Error"],
+                correct: 1,
+                explanation: "Floor division (//) returns the integer part of division"
+            },
+            {
+                type: "coding",
+                question: "Write a function called 'reverse_string' that takes a string as input and returns the string reversed.",
+                template: "def reverse_string(s):\n    # Your code here\n    pass",
+                tests: [
+                    { input: "hello", expected: "olleh" },
+                    { input: "python", expected: "nohtyp" },
+                    { input: "a", expected: "a" },
+                    { input: "", expected: "" }
+                ]
+            },
+            {
+                type: "coding",
+                question: "Write a function called 'count_vowels' that takes a string and returns the number of vowels (a, e, i, o, u) in it.",
+                template: "def count_vowels(s):\n    # Your code here\n    pass",
+                tests: [
+                    { input: "hello", expected: 2 },
+                    { input: "python", expected: 1 },
+                    { input: "aeiou", expected: 5 },
+                    { input: "xyz", expected: 0 }
+                ]
+            },
+            {
+                type: "coding",
+                question: "Write a function called 'is_palindrome' that checks if a string reads the same forwards and backwards (ignore case).",
+                template: "def is_palindrome(s):\n    # Your code here\n    pass",
+                tests: [
+                    { input: "racecar", expected: true },
+                    { input: "hello", expected: false },
+                    { input: "A", expected: true },
+                    { input: "Madam", expected: true }
+                ]
+            }
+        ];
+
+        // Utility functions
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function showHome() {
+            document.getElementById('home-page').style.display = 'block';
+            document.getElementById('name-input-page').style.display = 'none';
+            document.getElementById('iq-test-page').style.display = 'none';
+            document.getElementById('python-test-page').style.display = 'none';
+            document.getElementById('results-page').style.display = 'none';
+            document.getElementById('review-page').style.display = 'none';
+            
+            // Reset state
+            currentTest = null;
+            currentQuestion = 0;
+            answers = {};
+            userName = '';
+            userEmail = '';
+            if (timer) clearInterval(timer);
+        }
+
+        function startIQTest() {
+            currentTest = 'iq';
+            document.getElementById('test-title').textContent = 'IQ Test - Enter Your Details';
+            document.getElementById('start-test-btn').textContent = 'Start IQ Test';
+            
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('name-input-page').style.display = 'block';
+        }
+
+        function startPythonTest() {
+            currentTest = 'python';
+            document.getElementById('test-title').textContent = 'Python Test - Enter Your Details';
+            document.getElementById('start-test-btn').textContent = 'Start Python Test';
+            
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('name-input-page').style.display = 'block';
+        }
+
+        function proceedToTest() {
+            const nameInput = document.getElementById('user-name').value.trim();
+            if (!nameInput) {
+                // Show inline validation message
+                const nameField = document.getElementById('user-name');
+                nameField.classList.add('is-invalid');
+                
+                // Remove existing error message if any
+                const existingError = document.querySelector('.name-error');
+                if (existingError) existingError.remove();
+                
+                // Add error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'invalid-feedback name-error';
+                errorDiv.textContent = 'Please enter your name to continue.';
+                nameField.parentNode.appendChild(errorDiv);
+                
+                // Remove error styling after user starts typing
+                nameField.addEventListener('input', function() {
+                    this.classList.remove('is-invalid');
+                    const error = document.querySelector('.name-error');
+                    if (error) error.remove();
+                }, { once: true });
+                
+                return;
+            }
+            
+            userName = nameInput;
+            userEmail = document.getElementById('user-email').value.trim();
+            
+            // Reset test state
+            currentQuestion = 0;
+            answers = {};
+            
+            if (currentTest === 'iq') {
+                timeLeft = 900; // 15 minutes
+                
+                document.getElementById('name-input-page').style.display = 'none';
+                document.getElementById('iq-test-page').style.display = 'block';
+                document.getElementById('test-taker-name').textContent = `Test taker: ${userName}`;
+                
+                // Shuffle questions
+                window.shuffledIQQuestions = shuffleArray(iqQuestions).slice(0, 20);
+                
+                startTimer();
+                displayIQQuestion();
+            } else if (currentTest === 'python') {
+                document.getElementById('name-input-page').style.display = 'none';
+                document.getElementById('python-test-page').style.display = 'block';
+                document.getElementById('python-taker-name').textContent = `Test taker: ${userName}`;
+                
+                // Shuffle MCQ questions and add coding questions
+                const mcqQuestions = shuffleArray(pythonQuestions.filter(q => q.type === 'mcq')).slice(0, 10);
+                const codingQuestions = pythonQuestions.filter(q => q.type === 'coding');
+                window.shuffledPythonQuestions = [...mcqQuestions, ...codingQuestions];
+                
+                displayPythonQuestion();
+            }
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    finishIQTest();
+                }
+            }, 1000);
+        }
+
+        function displayIQQuestion() {
+            const question = window.shuffledIQQuestions[currentQuestion];
+            const progress = ((currentQuestion + 1) / 20) * 100;
+            
+            document.getElementById('iq-progress').style.width = progress + '%';
+            
+            const html = `
+                <h4>Question ${currentQuestion + 1} of 20</h4>
+                <p class="lead mb-4">${question.question}</p>
+                <div class="row">
+                    ${question.options.map((option, index) => `
+                        <div class="col-md-6 mb-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="iq-answer" id="iq-option-${index}" value="${index}" ${answers[currentQuestion] === index ? 'checked' : ''}>
+                                <label class="form-check-label" for="iq-option-${index}">
+                                    ${option}
+                                </label>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById('iq-question-card').innerHTML = html;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('next-btn').textContent = currentQuestion === 19 ? 'Finish Test' : 'Next';
+        }
+
+        function displayPythonQuestion() {
+            const question = window.shuffledPythonQuestions[currentQuestion];
+            const totalQuestions = window.shuffledPythonQuestions.length;
+            const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+            
+            document.getElementById('python-progress').style.width = progress + '%';
+            
+            // Update section indicator
+            const sectionText = question.type === 'mcq' ? 'Multiple Choice Section' : 'Coding Challenge Section';
+            document.getElementById('python-section').textContent = sectionText;
+            
+            let html = `<h4>Question ${currentQuestion + 1} of ${totalQuestions}</h4>`;
+            
+            if (question.type === 'mcq') {
+                html += `
+                    <p class="lead mb-4">${question.question}</p>
+                    <div class="row">
+                        ${question.options.map((option, index) => `
+                            <div class="col-md-6 mb-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="python-answer" id="python-option-${index}" value="${index}" ${answers[currentQuestion] === index ? 'checked' : ''}>
+                                    <label class="form-check-label" for="python-option-${index}">
+                                        ${option}
+                                    </label>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                html += `
+                    <p class="lead mb-4">${question.question}</p>
+                    <div class="mb-3">
+                        <textarea id="code-editor-${currentQuestion}" class="form-control">${answers[currentQuestion] || question.template}</textarea>
+                    </div>
+                    <button class="btn btn-info" onclick="testCode(${currentQuestion})">Test Code</button>
+                    <div id="test-results-${currentQuestion}" class="mt-3"></div>
+                `;
+            }
+            
+            document.getElementById('python-question-card').innerHTML = html;
+            
+            // Initialize CodeMirror for coding questions
+            if (question.type === 'coding') {
+                setTimeout(() => {
+                    const editor = CodeMirror.fromTextArea(document.getElementById(`code-editor-${currentQuestion}`), {
+                        mode: 'python',
+                        theme: 'monokai',
+                        lineNumbers: true,
+                        indentUnit: 4,
+                        lineWrapping: true
+                    });
+                    codeEditors[currentQuestion] = editor;
+                    
+                    // Load saved answer if exists
+                    if (answers[currentQuestion]) {
+                        editor.setValue(answers[currentQuestion]);
+                    }
+                }, 100);
+            }
+            
+            // Update navigation buttons
+            document.getElementById('python-prev-btn').disabled = currentQuestion === 0;
+            document.getElementById('python-next-btn').textContent = currentQuestion === totalQuestions - 1 ? 'Finish Test' : 'Next';
+        }
+
+        function nextIQQuestion() {
+            // Save current answer
+            const selectedOption = document.querySelector('input[name="iq-answer"]:checked');
+            if (selectedOption) {
+                answers[currentQuestion] = parseInt(selectedOption.value);
+            }
+            
+            if (currentQuestion === 19) {
+                finishIQTest();
+            } else {
+                currentQuestion++;
+                displayIQQuestion();
+            }
+        }
+
+        function previousIQQuestion() {
+            if (currentQuestion > 0) {
+                // Save current answer
+                const selectedOption = document.querySelector('input[name="iq-answer"]:checked');
+                if (selectedOption) {
+                    answers[currentQuestion] = parseInt(selectedOption.value);
+                }
+                
+                currentQuestion--;
+                displayIQQuestion();
+            }
+        }
+
+        function nextPythonQuestion() {
+            const question = window.shuffledPythonQuestions[currentQuestion];
+            
+            // Save current answer
+            if (question.type === 'mcq') {
+                const selectedOption = document.querySelector('input[name="python-answer"]:checked');
+                if (selectedOption) {
+                    answers[currentQuestion] = parseInt(selectedOption.value);
+                }
+            } else {
+                if (codeEditors[currentQuestion]) {
+                    answers[currentQuestion] = codeEditors[currentQuestion].getValue();
+                }
+            }
+            
+            if (currentQuestion === window.shuffledPythonQuestions.length - 1) {
+                finishPythonTest();
+            } else {
+                currentQuestion++;
+                displayPythonQuestion();
+            }
+        }
+
+        function previousPythonQuestion() {
+            if (currentQuestion > 0) {
+                const question = window.shuffledPythonQuestions[currentQuestion];
+                
+                // Save current answer
+                if (question.type === 'mcq') {
+                    const selectedOption = document.querySelector('input[name="python-answer"]:checked');
+                    if (selectedOption) {
+                        answers[currentQuestion] = parseInt(selectedOption.value);
+                    }
+                } else {
+                    if (codeEditors[currentQuestion]) {
+                        answers[currentQuestion] = codeEditors[currentQuestion].getValue();
+                    }
+                }
+                
+                currentQuestion--;
+                displayPythonQuestion();
+            }
+        }
+
+        function testCode(questionIndex) {
+            const question = window.shuffledPythonQuestions[questionIndex];
+            const code = codeEditors[questionIndex].getValue();
+            
+            let results = [];
+            let allPassed = true;
+            
+            try {
+                // Simple code execution simulation
+                const func = new Function('return ' + code)();
+                
+                for (let test of question.tests) {
+                    try {
+                        const result = func(test.input);
+                        const passed = result === test.expected;
+                        results.push({
+                            input: test.input,
+                            expected: test.expected,
+                            actual: result,
+                            passed: passed
+                        });
+                        if (!passed) allPassed = false;
+                    } catch (e) {
+                        results.push({
+                            input: test.input,
+                            expected: test.expected,
+                            actual: 'Error: ' + e.message,
+                            passed: false
+                        });
+                        allPassed = false;
+                    }
+                }
+            } catch (e) {
+                results.push({
+                    input: 'Code compilation',
+                    expected: 'Success',
+                    actual: 'Error: ' + e.message,
+                    passed: false
+                });
+                allPassed = false;
+            }
+            
+            const resultsHtml = `
+                <div class="alert ${allPassed ? 'alert-success' : 'alert-warning'}">
+                    <h6>${allPassed ? '✅ All tests passed!' : '⚠️ Some tests failed'}</h6>
+                    ${results.map(r => `
+                        <div class="small ${r.passed ? 'text-success' : 'text-danger'}">
+                            Input: ${JSON.stringify(r.input)} → Expected: ${JSON.stringify(r.expected)}, Got: ${JSON.stringify(r.actual)} ${r.passed ? '✅' : '❌'}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById(`test-results-${questionIndex}`).innerHTML = resultsHtml;
+        }
+
+        function finishIQTest() {
+            if (timer) clearInterval(timer);
+            
+            let score = 0;
+            for (let i = 0; i < 20; i++) {
+                if (answers[i] === window.shuffledIQQuestions[i].correct) {
+                    score++;
+                }
+            }
+            
+            const percentage = (score / 20) * 100;
+            let interpretation = '';
+            let iqEstimate = '';
+            
+            if (percentage >= 90) {
+                interpretation = 'Exceptional - You demonstrate superior analytical thinking and problem-solving abilities.';
+                iqEstimate = '130+';
+            } else if (percentage >= 80) {
+                interpretation = 'Above Average - You show strong logical reasoning and pattern recognition skills.';
+                iqEstimate = '115-129';
+            } else if (percentage >= 70) {
+                interpretation = 'Average - You have good problem-solving abilities with room for improvement.';
+                iqEstimate = '100-114';
+            } else if (percentage >= 60) {
+                interpretation = 'Below Average - Consider practicing more logic puzzles and analytical thinking exercises.';
+                iqEstimate = '85-99';
+            } else {
+                interpretation = 'Needs Improvement - Focus on developing logical reasoning and pattern recognition skills.';
+                iqEstimate = 'Below 85';
+            }
+            
+            const timeUsed = 900 - timeLeft;
+            const minutesUsed = Math.floor(timeUsed / 60);
+            const secondsUsed = timeUsed % 60;
+            
+            document.getElementById('results-content').innerHTML = `
+                <h2>🧠 IQ Test Results</h2>
+                <p class="lead">Results for: <strong>${userName}</strong></p>
+                <div class="row text-center mt-4">
+                    <div class="col-md-4">
+                        <h3>${score}/20</h3>
+                        <p>Correct Answers</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>${percentage.toFixed(1)}%</h3>
+                        <p>Score Percentage</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>${iqEstimate}</h3>
+                        <p>Estimated IQ Range</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h4>Interpretation</h4>
+                    <p>${interpretation}</p>
+                    <p><strong>Time Used:</strong> ${minutesUsed}:${secondsUsed.toString().padStart(2, '0')}</p>
+                </div>
+            `;
+            
+            showResults();
+        }
+
+        function finishPythonTest() {
+            let mcqScore = 0;
+            let codingScore = 0;
+            let mcqTotal = 0;
+            let codingTotal = 0;
+            
+            for (let i = 0; i < window.shuffledPythonQuestions.length; i++) {
+                const question = window.shuffledPythonQuestions[i];
+                
+                if (question.type === 'mcq') {
+                    mcqTotal++;
+                    if (answers[i] === question.correct) {
+                        mcqScore++;
+                    }
+                } else {
+                    codingTotal++;
+                    // Simple scoring for coding questions
+                    if (answers[i] && answers[i].trim() !== question.template.trim()) {
+                        codingScore += 0.5; // Partial credit for attempting
+                        
+                        // Additional credit for likely correct solutions
+                        const code = answers[i].toLowerCase();
+                        if (question.question.includes('reverse_string') && code.includes('[::-1]')) {
+                            codingScore += 0.5;
+                        } else if (question.question.includes('count_vowels') && code.includes('aeiou')) {
+                            codingScore += 0.5;
+                        } else if (question.question.includes('is_palindrome') && code.includes('lower()')) {
+                            codingScore += 0.5;
+                        }
+                    }
+                }
+            }
+            
+            const totalScore = mcqScore + codingScore;
+            const maxScore = mcqTotal + codingTotal;
+            const percentage = (totalScore / maxScore) * 100;
+            
+            let level = '';
+            if (percentage >= 85) level = 'Expert';
+            else if (percentage >= 70) level = 'Advanced';
+            else if (percentage >= 55) level = 'Intermediate';
+            else if (percentage >= 40) level = 'Beginner';
+            else level = 'Novice';
+            
+            document.getElementById('results-content').innerHTML = `
+                <h2>🐍 Python Test Results</h2>
+                <p class="lead">Results for: <strong>${userName}</strong></p>
+                <div class="row text-center mt-4">
+                    <div class="col-md-3">
+                        <h3>${mcqScore}/${mcqTotal}</h3>
+                        <p>MCQ Score</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h3>${codingScore.toFixed(1)}/${codingTotal}</h3>
+                        <p>Coding Score</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h3>${percentage.toFixed(1)}%</h3>
+                        <p>Overall Score</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h3>${level}</h3>
+                        <p>Skill Level</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h4>Performance Analysis</h4>
+                    <p><strong>Multiple Choice:</strong> ${((mcqScore/mcqTotal)*100).toFixed(1)}% - Tests your Python syntax and concept knowledge</p>
+                    <p><strong>Coding Challenges:</strong> ${((codingScore/codingTotal)*100).toFixed(1)}% - Evaluates your practical programming skills</p>
+                    <p><strong>Recommendation:</strong> ${level === 'Expert' ? 'Excellent work! Consider advanced Python topics.' : level === 'Advanced' ? 'Great job! Focus on complex algorithms and data structures.' : level === 'Intermediate' ? 'Good progress! Practice more coding challenges.' : 'Keep learning! Focus on Python fundamentals and basic programming concepts.'}</p>
+                </div>
+            `;
+            
+            showResults();
+        }
+
+        function showResults() {
+            document.getElementById('iq-test-page').style.display = 'none';
+            document.getElementById('python-test-page').style.display = 'none';
+            document.getElementById('results-page').style.display = 'block';
+        }
+
+        function showReview() {
+            document.getElementById('results-page').style.display = 'none';
+            document.getElementById('review-page').style.display = 'block';
+            generateReview();
+        }
+
+        function backToResults() {
+            document.getElementById('review-page').style.display = 'none';
+            document.getElementById('results-page').style.display = 'block';
+        }
+
+        function generateReview() {
+            let reviewHtml = '';
+            
+            if (currentTest === 'iq') {
+                reviewHtml = `<h3 class="text-white mb-4">IQ Test Review - ${userName}</h3>`;
+                
+                for (let i = 0; i < window.shuffledIQQuestions.length; i++) {
+                    const question = window.shuffledIQQuestions[i];
+                    const userAnswer = answers[i];
+                    const isCorrect = userAnswer === question.correct;
+                    
+                    reviewHtml += `
+                        <div class="question-card mb-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5>Question ${i + 1}</h5>
+                                <span class="badge ${isCorrect ? 'bg-success' : 'bg-danger'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+                            </div>
+                            <p class="mb-3"><strong>${question.question}</strong></p>
+                            <div class="row">
+                                ${question.options.map((option, index) => {
+                                    let classes = 'col-md-6 mb-2';
+                                    let badgeClass = '';
+                                    let badge = '';
+                                    
+                                    if (index === question.correct) {
+                                        badgeClass = 'border-success bg-light-success';
+                                        badge = '<span class="badge bg-success ms-2">Correct Answer</span>';
+                                    }
+                                    if (index === userAnswer && userAnswer !== question.correct) {
+                                        badgeClass = 'border-danger bg-light-danger';
+                                        badge = '<span class="badge bg-danger ms-2">Your Answer</span>';
+                                    }
+                                    if (index === userAnswer && userAnswer === question.correct) {
+                                        badge = '<span class="badge bg-success ms-2">Your Correct Answer</span>';
+                                    }
+                                    
+                                    return `
+                                        <div class="${classes}">
+                                            <div class="p-2 rounded ${badgeClass}">
+                                                ${option} ${badge}
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                            ${userAnswer === undefined ? '<p class="text-muted mt-2"><em>No answer provided</em></p>' : ''}
+                            <div class="mt-3 p-3 bg-light rounded">
+                                <strong>Explanation:</strong> ${question.explanation}
+                            </div>
+                        </div>
+                    `;
+                }
+            } else if (currentTest === 'python') {
+                reviewHtml = `<h3 class="text-white mb-4">Python Test Review - ${userName}</h3>`;
+                
+                for (let i = 0; i < window.shuffledPythonQuestions.length; i++) {
+                    const question = window.shuffledPythonQuestions[i];
+                    const userAnswer = answers[i];
+                    
+                    if (question.type === 'mcq') {
+                        const isCorrect = userAnswer === question.correct;
+                        
+                        reviewHtml += `
+                            <div class="question-card mb-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h5>Question ${i + 1} (Multiple Choice)</h5>
+                                    <span class="badge ${isCorrect ? 'bg-success' : 'bg-danger'}">${isCorrect ? 'Correct' : 'Incorrect'}</span>
+                                </div>
+                                <p class="mb-3"><strong>${question.question}</strong></p>
+                                <div class="row">
+                                    ${question.options.map((option, index) => {
+                                        let classes = 'col-md-6 mb-2';
+                                        let badgeClass = '';
+                                        let badge = '';
+                                        
+                                        if (index === question.correct) {
+                                            badgeClass = 'border-success bg-light-success';
+                                            badge = '<span class="badge bg-success ms-2">Correct Answer</span>';
+                                        }
+                                        if (index === userAnswer && userAnswer !== question.correct) {
+                                            badgeClass = 'border-danger bg-light-danger';
+                                            badge = '<span class="badge bg-danger ms-2">Your Answer</span>';
+                                        }
+                                        if (index === userAnswer && userAnswer === question.correct) {
+                                            badge = '<span class="badge bg-success ms-2">Your Correct Answer</span>';
+                                        }
+                                        
+                                        return `
+                                            <div class="${classes}">
+                                                <div class="p-2 rounded ${badgeClass}">
+                                                    ${option} ${badge}
+                                                </div>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                                ${userAnswer === undefined ? '<p class="text-muted mt-2"><em>No answer provided</em></p>' : ''}
+                                <div class="mt-3 p-3 bg-light rounded">
+                                    <strong>Explanation:</strong> ${question.explanation}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // Coding question
+                        reviewHtml += `
+                            <div class="question-card mb-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h5>Question ${i + 1} (Coding Challenge)</h5>
+                                    <span class="badge bg-info">Coding Task</span>
+                                </div>
+                                <p class="mb-3"><strong>${question.question}</strong></p>
+                                <div class="mb-3">
+                                    <h6>Your Solution:</h6>
+                                    <pre class="bg-dark text-light p-3 rounded"><code>${userAnswer || 'No solution provided'}</code></pre>
+                                </div>
+                                <div class="mt-3 p-3 bg-light rounded">
+                                    <h6>Test Cases:</h6>
+                                    ${question.tests.map(test => `
+                                        <div class="mb-2">
+                                            <strong>Input:</strong> ${JSON.stringify(test.input)} → 
+                                            <strong>Expected:</strong> ${JSON.stringify(test.expected)}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            }
+            
+            document.getElementById('review-content').innerHTML = reviewHtml;
+        }
+
+
+
+        // Initialize the application
+        showHome();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ff9438f2f84ea2',t:'MTc2MDcwMTgzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
